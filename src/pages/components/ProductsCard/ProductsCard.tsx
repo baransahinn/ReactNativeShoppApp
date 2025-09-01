@@ -14,6 +14,7 @@ function ProductsCard(product: Product) {
         <View style={styles.bodyContainer}>
             <Text style={styles.title}>{product.title}</Text>
             <Text style={styles.price}>{product.price}</Text>
+
         </View>
     </View>
   )
