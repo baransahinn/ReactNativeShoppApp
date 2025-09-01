@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import useFetch from '../../Hooks/useFetch/useFetch';
+import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Text,FlatList, ListRenderItem, ActivityIndicator} from 'react-native'
 import Config  from 'react-native-config';
-import axios from 'axios';
 import ProductsCard from '../components/ProductsCard/ProductsCard';
 
 type ProductsList = {
@@ -12,26 +12,10 @@ type ProductsList = {
     id:number
 }
 function Products() {
-const [data , setData]= useState<ProductsList[]>([])
-const [loading, setLoading] = useState(true);
-const [error, setError] = useState<string | null>(null);
 
- const fetchData = async ()=>{
-    try {
-    const {data:productData} = await axios.get<ProductsList[]>(Config.API_URL!)
-    
-    setData(productData)
-    setLoading(false)
-    }catch(err: any){
-        setError(err.message)
-        setLoading(false)
-    }
-}
+  const {data, loading, error} = useFetch(Config.API_URL!)
+
   const renderProducts:ListRenderItem<ProductsList> = ({item})=>(<ProductsCard title={item.title} image={item.image} price={item.price} />)
-
-    useEffect(()=>{
-        fetchData()
-    },[]);
 
   if(loading){
       return <ActivityIndicator size="large" />
@@ -52,3 +36,6 @@ const [error, setError] = useState<string | null>(null);
 }
 
 export default Products
+
+
+
